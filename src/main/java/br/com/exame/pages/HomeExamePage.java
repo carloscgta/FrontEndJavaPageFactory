@@ -24,7 +24,4 @@ public class HomeExamePage extends BasePage {
 	}
 	
 	
-	
-	
-	
 }

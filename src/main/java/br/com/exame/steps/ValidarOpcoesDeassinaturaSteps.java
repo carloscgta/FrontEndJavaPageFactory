@@ -9,6 +9,7 @@ import org.junit.Assert;
 import br.com.exame.core.DriverFactory;
 import br.com.exame.core.PDFGenerator;
 import br.com.exame.core.TipoDriver;
+import br.com.exame.hooks.Hooks;
 import br.com.exame.pages.HomeExamePage;
 import br.com.exame.pages.PayWallOpcoesAssinaturaPage;
 import cucumber.api.DataTable;
@@ -20,28 +21,22 @@ import cucumber.api.java.en.Then;
 import cucumber.runtime.junit.Assertions;
 
 
-public class ValidarOpcoesDeassinaturaSteps {
+public class ValidarOpcoesDeassinaturaSteps    {
 
 	public ValidarOpcoesDeassinaturaSteps() {
 		// TODO Auto-generated constructor stub
 	}
 
 	PDFGenerator pdfgenerator = new PDFGenerator();
+	String currentHandle;
+	String currentHandle2;
 	
-	
+//	mvn test -Dcucumber.options="--tags @ValidarOpcoesDeassinaturaDigital"
 	@Before(value = "@ValidarOpcoesDeassinaturaDigital", order = 1)
 	public void before(Scenario cenario) throws Exception {
-		DriverFactory.getDriver(TipoDriver.CHROME).navigate().to("https://pre.exame.com.br/");
-		
-		DriverFactory.page.GetInstance(HomeExamePage.class).clicarBotaoAssine();
-		//  ArrayList<String> tabs = new ArrayList<String> ( DriverFactory.getDriver(TipoDriver.CHROME).getWindowHandles());
-		
-		ArrayList<String> tabs2 = new ArrayList<String> (DriverFactory.getDriver(TipoDriver.CHROME).getWindowHandles());
-		DriverFactory.getDriver(TipoDriver.CHROME).switchTo().window(tabs2.get(1));
-		//DriverFactory.getDriver(TipoDriver.CHROME).close();
-		//DriverFactory.getDriver(TipoDriver.CHROME).switchTo().window(tabs2.get(0));
-		
+//		DriverFactory.getDriver(TipoDriver.CHROME).get("https://pre.exame.com.br/");
 		pdfgenerator.iniciaPDF(cenario);
+		
 	}
 	
 	   //List<Map<String, String>> list = dt.asMaps(String.class, String.class);
@@ -50,7 +45,7 @@ public class ValidarOpcoesDeassinaturaSteps {
 	public void que_um_leitor_nao_assinante_acessa_um_noticia_do_Paywayll() throws Throwable {
 		pdfgenerator.conteudoPDF("seleciona_a_opcao_de_assinatura");
 		
-		DriverFactory.page.GetInstance(HomeExamePage.class).clicarBotaoAssine();
+		
 	}
 
 	
@@ -70,6 +65,9 @@ public class ValidarOpcoesDeassinaturaSteps {
 			Assert.assertTrue(resultTest);
 		}
 		
+		System.out.println(listaPlanos.get(0));
+		
+		
 	    
 	}
 	
@@ -77,10 +75,15 @@ public class ValidarOpcoesDeassinaturaSteps {
 		@After(value = "@ValidarOpcoesDeassinaturaDigital", order = 1)
 		public void finalizaPDF(Scenario cenario) throws Exception {
 			
-			
+//			ArrayList<String> tabs = new ArrayList<String> (DriverFactory.getDriver(TipoDriver.CHROME).getWindowHandles());
+//			DriverFactory.getDriver(TipoDriver.CHROME).switchTo().window(tabs.get(0));
+//			DriverFactory.getDriver(TipoDriver.CHROME).switchTo().defaultContent().close();
 			pdfgenerator.fechaPDF("Fechar PDF");
+//			DriverFactory.closeDriver();
 			
-			DriverFactory.closeDriver();
+//			ArrayList<String> tabs = new ArrayList<String> (DriverFactory.getDriver(TipoDriver.CHROME).getWindowHandles());
+//			DriverFactory.getDriver(TipoDriver.CHROME).switchTo().defaultContent();
+			
 			
 		}
 		

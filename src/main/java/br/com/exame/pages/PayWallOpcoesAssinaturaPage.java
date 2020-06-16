@@ -17,15 +17,15 @@ public class PayWallOpcoesAssinaturaPage extends BasePage {
 	@FindBy(xpath = "//div[@id='root']")
 	public WebElement divPayWall;
 	
-	@FindBy(xpath = "(//a[@href='/subscription'])[1]")
+	@FindBy(xpath = "//*[@data-plan-title='exame digital']")
 	public WebElement buttonAssineDigital;
 	
-	@FindBy(xpath = "(//a[@href='/subscription'])[2]")
+
+	@FindBy(xpath = "//*[@data-plan-title='exame digital + impressa']")
 	public WebElement buttonAssineImpresso;
 	
-
 	public void clicarBotaoAssineDigital() throws InterruptedException {
-		
+		moverParaElemento(buttonAssineDigital);
 		click(buttonAssineDigital);
 	}
 	
@@ -41,15 +41,18 @@ public class PayWallOpcoesAssinaturaPage extends BasePage {
 				try {
 					
 					String textoDivDigital = divPayWall.getText();
-					waitForElement(buttonAssineDigital);
-					scrollToElement(divPayWall);
+					System.out.println(textoDivDigital);
+					
+					waitForElement(divPayWall);
+					//moverParaElemento(buttonAssineDigital);
 					if(textoDivDigital.contains(texto)) {
 						result = true;
 						System.out.println("O texto da opcao foi encontrado na pagina:"+texto);	
 				
 					}
 					
-					scrollToElement(buttonAssineImpresso);
+					System.out.println("O texto da opcao foi encontrado na pagina:"+texto);	
+					//moverParaElemento(buttonAssineImpresso);
 					
 					
 				} catch (Exception e) {

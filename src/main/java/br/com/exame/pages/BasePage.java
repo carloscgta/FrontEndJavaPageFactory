@@ -9,7 +9,9 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class BasePage extends PageGenerator {
@@ -23,21 +25,38 @@ public class BasePage extends PageGenerator {
 
 	// If we need we can use custom wait in BasePage and all page classes
 
-	WebDriverWait wait = new WebDriverWait(this.driver, 30);
+	WebDriverWait wait = new WebDriverWait(this.driver, 40);
  
 	// Click Method by using JAVA Generics (You can use both By or Webelement)
 
+	
+	public <T> void avancarSessaoPagamento() throws InterruptedException {
+		
+	new WebDriverWait(driver, 20).until(ExpectedConditions.elementToBeClickable(By.xpath("(//button[@type='submit'])[1]"))).click();
+	   
+	        
+	}
+
+	public <T> void clicarBotaoProsseguir() throws InterruptedException {
+		
+	new WebDriverWait(driver, 20).until(ExpectedConditions.elementToBeClickable(By.xpath("(//button[@type='submit'])[1]"))).click();
+	   
+	        
+	}
+	
+	
 	public <T> void click(T elementAttr) throws InterruptedException {
 
 		waitForElement(elementAttr);
 		((WebElement) elementAttr).click();
 
 	}
+	
 
 	// Wait generic method
 
 	public <T> void waitForElement(T elementAttr) throws InterruptedException {
-		scrollToElement(elementAttr);
+		moverParaElemento(elementAttr);
 		wait.until(ExpectedConditions. visibilityOf((WebElement) elementAttr));
 		
 		((WebElement) elementAttr).isDisplayed();
@@ -76,6 +95,7 @@ public class BasePage extends PageGenerator {
 
 	}
 
+	
 	// Read Text by using JAVA Generics (You can use both By or Webelement)
 
 	public <T> String readText(T elementAttr) {
@@ -119,9 +139,19 @@ public class BasePage extends PageGenerator {
 
 		JavascriptExecutor jse = (JavascriptExecutor)driver;
 		
-		jse.executeScript("window.scrollBy(0,500)", "");
+		jse.executeScript("window.scrollBy(0,200)", "");
 	}
 	
+	
+	
+
+	public <T> void moverParaElemento(T elementAttr) throws InterruptedException {
+
+
+		Actions builder = new Actions(driver);
+		builder.moveToElement((WebElement) elementAttr).perform();
+		
+	}
 
 	public <T> void dismissAlertPopup() throws InterruptedException {
 
@@ -131,28 +161,87 @@ public class BasePage extends PageGenerator {
 
 	}
 
+	
+	public <T> void MarcarCheckBoxRecaptcha() throws InterruptedException {
+		
+		new WebDriverWait(driver, 20).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.xpath("//iframe[starts-with(@name, 'a-') and starts-with(@src, 'https://www.google.com/recaptcha')]")));
+		new WebDriverWait(driver, 20).until(ExpectedConditions.elementToBeClickable(By.xpath("//iframe[starts-with(@name, 'a-') and starts-with(@src, 'https://www.google.com/recaptcha')]"))).click();
+	   
+	        
+	}
+	
+
 	/*
+	 * 
 	 * 
 	 * @Author: Carlos Almeida
 	 * 
 	 * 
-	 * 
+	 *@FindBy(xpath ="")
+	public WebElement selectMes;
+	
+	@FindBy(xpath ="//select[@id=\"cardExpirationYear\"]")
+	public WebElement selectAno; 
 	 */
+	
 
 	// Read Text by using JAVA Generics (You can use both By or Webelement)
 
 	public <T> void selectElement(T elementAttr, int index) {
 
-		@SuppressWarnings("unchecked")
-
+		
 		List<WebElement> elements = (List<WebElement>) elementAttr;
 
 		elements.get(index).click();
 
 	}
 	
+	public <T> void selectMes(T elementAttr, String index) throws InterruptedException {
+		
+		irParaElementoMes();
+		Select selectMes = new Select(driver.findElement(By.xpath("//select[@id='cardExpirationMonth']")));
+		selectMes.selectByVisibleText("09");
+		
 	
+	}
+	
+	public <T> void selectGeneric(T elementAttr, String index) throws InterruptedException {
+		
+		moverParaElemento(elementAttr);
+		Select selectMes = new Select((WebElement) elementAttr);
+		selectMes.selectByVisibleText(index);
+		
+	
+	}
+	
+	
+	public <T> void selectAno(T elementAttr, String index) throws InterruptedException {
 
+		irParaElementoAno();
+		Select selectAno = new Select(driver.findElement(By.xpath("//select[@id='cardExpirationYear']")));
+		selectAno.selectByVisibleText("2021");
+	
+	}
+
+	
+	public <T> void irParaElementoMes() throws InterruptedException {
+
+		WebElement element = driver.findElement(By.xpath("//select[@id='cardExpirationMonth']"));
+		Actions actions = new Actions(driver);
+		actions.moveToElement(element);
+		actions.perform();
+	
+	}
+	
+	public <T> void irParaElementoAno() throws InterruptedException {
+
+		WebElement element = driver.findElement(By.xpath("//select[@id='cardExpirationYear']"));
+		Actions actions = new Actions(driver);
+		actions.moveToElement(element);
+		actions.perform();
+	
+	}
+	
 	public <T> void fazerUploadDeArquivo(T elementAttr, String PahtToFIle) throws InterruptedException {
 
 		((WebElement) elementAttr).sendKeys(PahtToFIle);

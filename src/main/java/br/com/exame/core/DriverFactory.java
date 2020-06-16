@@ -40,7 +40,7 @@ public class DriverFactory {
 				// firefoxCapabilities);
 				// driver= new WebDriver();
 				FirefoxOptions opcoes = new FirefoxOptions();
-				// opcoes.addArguments("--headless");
+				opcoes.addArguments("--headless");
 				driver = new FirefoxDriver(opcoes);
 				page = new PageGenerator(driver);
 			}
@@ -57,9 +57,8 @@ public class DriverFactory {
 				// chromeCapabilities);
 				// driver= new WebDriver();
 				ChromeOptions opcoes = new ChromeOptions();
-				// opcoes.addArguments("--headless");
+				//opcoes.addArguments("--headless");
 				driver = new ChromeDriver(opcoes);
-
 				page = new PageGenerator(driver);
 			}
 			break;
@@ -69,7 +68,7 @@ public class DriverFactory {
 
 		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
-
+		
 		return driver;
 
 	}

@@ -177,8 +177,8 @@
 						<include>br/com/exame/runner/RunnerAssinar.java</include>
 						<include>br/com/exame/runner/RunnerLogin.java</include>
 					</includes>
-					<parallel>classes</parallel>
-					<threadCount>20</threadCount>
+					<parallel>all</parallel>
+					<threadCount>1</threadCount>
 				</configuration>
 			</plugin>
 			<plugin>

@@ -14,5 +14,4 @@ tags = { "@geralAssinar" })
 
 public class RunnerAssinar {
 
-}
-  
+}	
